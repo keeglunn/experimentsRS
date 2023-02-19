@@ -2,10 +2,10 @@
 
 use midir::MidiInputConnection;
 use nannou::prelude::*;
-use std::{sync::mpsc::{channel, Receiver}, u8};
-use wmidi::{ControlFunction, MidiMessage};
+use std::sync::mpsc::{channel, Receiver};
+use wmidi::{MidiMessage};
 
-pub mod midi;
+use sketches::midi;
 
 fn main() {
     nannou::app(model).update(update).run();
@@ -14,7 +14,6 @@ fn main() {
 struct Model {
     show_frame_count: bool,
     note_on_time: u64,
-    speed: f32,
     _connection: Option<MidiInputConnection<()>>,
     receiver: Receiver<Vec<u8>>,
 }
@@ -34,8 +33,6 @@ fn model(app: &App) -> Model {
         show_frame_count: false,
 
         note_on_time: 0,
-        speed: 0.0,
-
 
         _connection: midi::init(tx),
         receiver: rx,
@@ -51,16 +48,6 @@ fn update(app: &App, model: &mut Model, _update: Update) {
             Ok(midi_message) => match midi_message {
                 wmidi::MidiMessage::NoteOn(_channel, _note, _velocity) => {
                     model.note_on_time = app.elapsed_frames()
-                }
-                wmidi::MidiMessage::ControlChange(channel, note, velocity) => {
-                    match (channel, note) {
-                        (wmidi::Channel::Ch1, ControlFunction::BANK_SELECT) => {
-                            let v: u8 = velocity.into();
-                            model.speed = v as f32 / 127.0
-                        }
-                        _ => {}
-                    }
-                    print!("CC {:?} {:?} {:?} \n", channel, note, velocity)
                 }
                 _ => {
                     print!("Other message type\n")
@@ -108,8 +95,8 @@ fn view(app: &App, model: &Model, frame: Frame) {
         .stroke_weight(1 as f32)
         .color(BLACK);
 
-    let x = (frame.nth() as f32 / (60.0 * model.speed)).sin() * big_radius;
-    let y = (frame.nth() as f32 / (60.0 * model.speed)).cos() * big_radius;
+    let x = (frame.nth() as f32 / 60.0).sin() * big_radius;
+    let y = (frame.nth() as f32 / 60.0).cos() * big_radius;
 
     draw.ellipse()
         .x_y(x, y)

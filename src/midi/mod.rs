@@ -1,6 +1,8 @@
 use midir::{Ignore, MidiInput, MidiInputConnection};
 use std::sync::mpsc::Sender;
 
+pub mod twister;
+
 pub fn init(tx: Sender<Vec<u8>>) -> Option<MidiInputConnection<()>> { 
     let mut midi_in = match MidiInput::new("reading input") {
         Err(_) => panic!(),
@@ -33,3 +35,4 @@ pub fn init(tx: Sender<Vec<u8>>) -> Option<MidiInputConnection<()>> {
         }
     }
 }
+

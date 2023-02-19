@@ -1,5 +1,8 @@
 #![allow(unused_parens)]
 
+use sketches::midi;
+use sketches::midi::twister::constants as twister_constants;
+
 use midir::MidiInputConnection;
 use nannou::prelude::*;
 use std::{
@@ -7,9 +10,6 @@ use std::{
     u8,
 };
 use wmidi::MidiMessage;
-
-pub mod midi;
-pub mod twister_constants;
 
 fn main() {
     nannou::app(model).update(update).run();
