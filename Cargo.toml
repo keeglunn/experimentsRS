@@ -29,5 +29,9 @@ name = "twister_2"
 path = "examples/twister/midi_twister_2.rs"
 
 [[example]]
+name = "lines"
+path = "examples/twister/lines.rs"
+
+[[example]]
 name = "draped"
 path = "examples/twister/draped.rs"
