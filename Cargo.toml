@@ -8,6 +8,27 @@ nannou = "0.18"
 midir = "0.8.0"
 wmidi = "4.0.6"
 
+# Complete
+
+[[example]]
+name = "twister_2"
+path = "examples/twister/midi_twister_2.rs"
+
+[[example]]
+name = "lines"
+path = "examples/twister/lines.rs"
+
+# Work in Progress
+[[example]]
+name = "draped"
+path = "examples/twister/draped.rs"
+
+# Mothball
+
+[[example]]
+name = "twister_1"
+path = "examples/twister/midi_twister_1.rs"
+
 [[example]]
 name = "genuary_1"
 path = "examples/genuary_2023/genuary_1.rs"
@@ -20,18 +41,4 @@ path = "examples/genuary_2023/genuary_2.rs"
 name = "genuary_4"
 path = "examples/genuary_2023/genuary_4.rs"
 
-[[example]]
-name = "twister_1"
-path = "examples/twister/midi_twister_1.rs"
 
-[[example]]
-name = "twister_2"
-path = "examples/twister/midi_twister_2.rs"
-
-[[example]]
-name = "lines"
-path = "examples/twister/lines.rs"
-
-[[example]]
-name = "draped"
-path = "examples/twister/draped.rs"

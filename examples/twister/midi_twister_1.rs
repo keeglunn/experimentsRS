@@ -36,7 +36,6 @@ fn model(app: &App) -> Model {
         note_on_time: 0,
         speed: 0.0,
 
-
         _connection: midi::init(tx),
         receiver: rx,
     }

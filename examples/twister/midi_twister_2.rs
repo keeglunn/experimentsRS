@@ -67,7 +67,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
     for i in 0..model.rad_positions.len() {
         let x = (model.rad_positions[i]).sin() * (big_radius * ((1.0 + i as f32) * 0.25));
         let y = (model.rad_positions[i]).cos() * (big_radius * ((1.0 + i as f32) * 0.25));
-
+ 
         draw.ellipse()
             .x_y(x, y)
             .radius(30 as f32)

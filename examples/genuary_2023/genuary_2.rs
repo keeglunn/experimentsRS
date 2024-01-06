@@ -3,7 +3,7 @@
 use midir::MidiInputConnection;
 use nannou::prelude::*;
 use std::sync::mpsc::{channel, Receiver};
-use wmidi::{MidiMessage};
+use wmidi::MidiMessage;
 
 use sketches::midi;
 

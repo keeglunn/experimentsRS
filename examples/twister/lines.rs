@@ -79,6 +79,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
         draw_frame_count(&frame, &draw, &win);
     }
 
+
     // Write to the window frame.
     draw.to_frame(app, &frame).unwrap();
 }
