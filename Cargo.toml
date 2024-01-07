@@ -19,9 +19,14 @@ name = "lines"
 path = "examples/twister/lines.rs"
 
 # Work in Progress
+
 [[example]]
 name = "draped"
 path = "examples/twister/draped.rs"
+
+[[example]]
+name = "crunchify_1"
+path = "examples/crunchify/crunchify_1.rs"
 
 # Mothball
 
