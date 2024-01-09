@@ -66,7 +66,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
     
     draw.background().color(BLACK);
 
-    if (model.show_frame_count) {
+    if model.show_frame_count {
         draw_frame_count(&frame, &draw, &win);
     }
 
