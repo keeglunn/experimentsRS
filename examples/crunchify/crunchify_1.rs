@@ -36,7 +36,7 @@ fn model(app: &App) -> Model {
 
     let assets = app.assets_path().unwrap();
     let img_path = assets
-        .join("sunset.png");
+        .join("calib.jpg");
 
     let image = image::open(img_path).unwrap();
 
@@ -95,15 +95,15 @@ fn update_params(model: &mut Model) {
                         }
                         (wmidi::Channel::Ch1, twister_constants::ONE_ZERO) => {
                             let v: u8 = velocity.into();
-                            model.red_w = sketches::util::speed_func(v as f32) 
+                            model.red_w = (v as f32) / 127.0;
                         }
                         (wmidi::Channel::Ch1, twister_constants::ONE_ONE) => {
                             let v: u8 = velocity.into();
-                            model.green_w = sketches::util::speed_func(v as f32) 
+                            model.green_w = (v as f32) / 127.0; 
                         }
                         (wmidi::Channel::Ch1, twister_constants::ONE_TWO) => {
                             let v: u8 = velocity.into();
-                            model.blue_w = sketches::util::speed_func(v as f32) 
+                            model.blue_w = (v as f32) / 127.0; 
                         }
                         _ => {}
                     }
@@ -114,24 +114,45 @@ fn update_params(model: &mut Model) {
     }
 }
 
+
 fn update_image(model: &mut Model) {
     let (w, h) = model.image.dimensions();
     for grid_x in 0..w {
         for grid_y in 0..h {
             let image_pixel = model.image.get_pixel(grid_x, grid_y);
 
-            let red = model.red_w * (image_pixel[0] as f32 / 255.0);
-            let green = model.green_w * (image_pixel[1] as f32 / 255.0);
-            let blue = model.blue_w * (image_pixel[2] as f32 / 255.0);
+            let red = (image_pixel[0] as f32 / 255.0);
+            let green = (image_pixel[1] as f32 / 255.0);
+            let blue = (image_pixel[2] as f32 / 255.0);
             
+            let luminosity: f32 = 0.2126*red + 0.7152*green + 0.0722*blue;
             let rand_pick: f32 = random_range(0.0, 1.0);
             // Give each color a win chance based on their relative value. black wins if no color wins
+            
+            let unweighted_color_total = red + green + blue;
+            let norm_red = red / unweighted_color_total;
+            let norm_green = green / unweighted_color_total;
+            let norm_blue = blue / unweighted_color_total;
 
-            if (rand_pick < red) {
+//           let weighted_red = red * model.red_w;
+//           let weighted_green = green * model.green_w;
+//           let weighted_blue = blue * model.blue_w;
+
+//            let color_total = weighted_red + weighted_green + weighted_blue;
+
+//            let final_red = (weighted_red / color_total) * luminosity;
+//            let final_green = (weighted_green / color_total) * luminosity;
+//            let final_blue = (weighted_blue / color_total) * luminosity;
+
+            let final_red = (norm_red * model.red_w) * luminosity;
+            let final_green = (norm_green * model.green_w) * luminosity;
+            let final_blue = (norm_blue * model.blue_w) * luminosity;
+
+            if (rand_pick < final_red) {
                 model.frame.put_pixel(grid_x, grid_y, Pixel::from_channels(255, 0, 0, 0));
-            } else if (rand_pick < red + green) {
+            } else if (rand_pick < final_red + final_green) {
                 model.frame.put_pixel(grid_x, grid_y, Pixel::from_channels(0, 255, 0, 0));
-            } else if (rand_pick < red + green + blue) {
+            } else if (rand_pick < final_red + final_green + final_blue) {
                 model.frame.put_pixel(grid_x, grid_y, Pixel::from_channels(0, 0, 255, 0));
             } else {
                 model.frame.put_pixel(grid_x, grid_y, Pixel::from_channels(0, 0, 0, 0));
