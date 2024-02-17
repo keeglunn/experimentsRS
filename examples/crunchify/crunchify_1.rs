@@ -19,6 +19,7 @@ use std::{
 };
 use wmidi::MidiMessage;
 
+
 fn main() {
     nannou::app(model).update(update).run();
 }
@@ -32,6 +33,7 @@ struct Model {
     speed: f32,
     opacity: f32,
     crunchiness: f32,
+
     red_w: f32,
     green_w: f32,
     blue_w: f32,
@@ -117,11 +119,11 @@ fn update_params(model: &mut Model) {
                         }
                         (wmidi::Channel::Ch1, twister_constants::ONE_ONE) => {
                             let v: u8 = velocity.into();
-                            model.green_w = (v as f32) / 127.0;
+                            model.green_w = (v as f32) / 127.0; 
                         }
                         (wmidi::Channel::Ch1, twister_constants::ONE_TWO) => {
                             let v: u8 = velocity.into();
-                            model.blue_w = (v as f32) / 127.0;
+                            model.blue_w = (v as f32) / 127.0; 
                         }
                         _ => {}
                     }
