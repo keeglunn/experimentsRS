@@ -49,6 +49,7 @@ fn update(app: &App, model: &mut Model, _update: Update) {
                 wmidi::MidiMessage::NoteOn(_channel, _note, _velocity) => {
                     model.note_on_time = app.elapsed_frames()
                 }
+                wmidi::MidiMessage::NoteOff(_channel, _note, _velocity) => {}
                 _ => {
                     print!("Other message type\n")
                 }
